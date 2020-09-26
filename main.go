@@ -6,11 +6,13 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 )
 
-const csvBaseURL = "https://www.mhlw.go.jp/content/"
+const (
+	csvBaseURL    = "https://www.mhlw.go.jp/content/"
+	ni255SheetURL = "https://docs.google.com/spreadsheets/d/1wsokKD7g5FRZk1Un0DJILLactzvTC5dVQ-PIK6E3F0A/export?exportFormat=csv"
+)
 
 // Daily 日付ごとの件数
 type Daily struct {
@@ -124,15 +126,18 @@ func loadDailyCountCSV(filename string) ([]Daily, error) {
 }
 
 func loadNI225() ([]NI225, error) {
-	file, err := os.Open("ni225.csv")
+	resp, err := http.Get(ni255SheetURL)
 	if err != nil {
 		return nil, err
 	}
-	reader := csv.NewReader(file)
+	defer resp.Body.Close()
+
+	reader := csv.NewReader(resp.Body)
 	// Drop a header record
 	if _, err := reader.Read(); err != nil {
 		return nil, err
 	}
+
 	var ns []NI225
 	for {
 		record, err := reader.Read()

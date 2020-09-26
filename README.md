@@ -16,4 +16,5 @@ leaf -x 'go run main.go'
 
 # Datasource
 
-https://www.mhlw.go.jp/stf/covid-19/open-data.html
+[オープンデータ｜厚生労働省](https://www.mhlw.go.jp/stf/covid-19/open-data.html)
+[Nikkei 225](https://docs.google.com/spreadsheets/d/1wsokKD7g5FRZk1Un0DJILLactzvTC5dVQ-PIK6E3F0A/edit?usp=sharing)
