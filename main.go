@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
+	"cloud.google.com/go/profiler"
 )
 
 const (
@@ -35,6 +37,11 @@ type Record struct {
 }
 
 func main() {
+	// Profiler initialization, best done as early as possible.
+	if err := profiler.Start(profiler.Config{}); err != nil {
+		log.Println(err)
+	}
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", index)
 
