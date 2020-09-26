@@ -10,6 +10,8 @@ import (
 	"strconv"
 )
 
+const csvBaseURL = "https://www.mhlw.go.jp/content/"
+
 // Daily 日付ごとの件数
 type Daily struct {
 	Date  string
@@ -89,13 +91,13 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func loadDailyCountCSV(filename string) ([]Daily, error) {
-	file, err := os.Open(filename)
+	resp, err := http.Get(csvBaseURL + filename)
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer resp.Body.Close()
 
-	reader := csv.NewReader(file)
+	reader := csv.NewReader(resp.Body)
 	// Drop a header record
 	if _, err := reader.Read(); err != nil {
 		return nil, err
