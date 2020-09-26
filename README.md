@@ -13,3 +13,7 @@ With auto-reload:
 ```shell
 leaf -x 'go run main.go'
 ```
+
+# Datasource
+
+https://www.mhlw.go.jp/stf/covid-19/open-data.html
